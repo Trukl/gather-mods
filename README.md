@@ -24,19 +24,47 @@ index.html            the page (with the Lucide icons it uses, inlined as an SVG
 assets/style.css      styles
 assets/app.js         videos, tabs, copy buttons, live catalog data
 assets/og.png         social preview image (Slack, X, …), 1200×630
-media/                the README recordings as MP4 (+ WebP poster), ~6 MB instead of 24 MB of GIFs
+media/                videos as MP4 (+ WebP poster), see “Videos” below
 scripts/sync-media.sh regenerates media/ and the icons from a gather-mod-menu checkout
 ```
 
-## Update the videos
+## Videos
 
-After re-recording a GIF in the mod repo (needs `ffmpeg`):
+The videos are the README GIFs for now, converted to MP4. To replace them, record screen videos (`.mov`, `.mp4` or `.webm`, no need to go through a GIF) named after their slot, put them in one folder and run (needs `ffmpeg`):
 
 ```bash
-scripts/sync-media.sh ../gather-mod-menu
+scripts/sync-media.sh ../gather-mod-menu ~/recordings
 ```
 
-To show a new recording, add its name to `RECORDINGS` in the script, run it, and add a `<video>` (or a clip tab) in `index.html`.
+Slots you don't record keep their current video. Without the second argument, the script reads the mod's `docs/media` GIFs again.
+
+| Slot (file name)                  | Where it shows                                      |
+| --------------------------------- | --------------------------------------------------- |
+| `animation-studio`                | Hero, top of the page                               |
+| `animation-studio-steps-others`   | Fun                                                 |
+| `custom-objects`                  | Custom objects, tab “Place an image”                |
+| `custom-objects-animated-gif`     | Custom objects, tab “Animated GIFs”                 |
+| `custom-objects-copies-animation` | Custom objects, tab “Copies”                        |
+| `custom-objects-plane`            | Custom objects, tab “Front and back”                |
+| `place-on`                        | Build, tab “Place on…”                              |
+| `linked-objects`                  | Build, tab “Linked objects”                         |
+| `bulk-delete`                     | Build, tab “Bulk delete”                            |
+| `desk-presets`                    | Desks & Constructions, tab “Desk presets”           |
+| `constructions`                   | Desks & Constructions, tab “Constructions”          |
+| `community-hub`                   | Community hub                                       |
+| `seasonal-themes`                 | Seasonal themes                                     |
+| `auto-away`                       | Small card “Auto away” (cropped to 5:4, bottom)     |
+| `mod-users`                       | Small card “Spot the other modders” (cropped, 5:4)  |
+| `ui-redesign`                     | Small card “Feels like Gather” (cropped, 5:4)       |
+
+Recording tips:
+
+- **Landscape, around 16:10**, at Retina resolution: the script scales down to 1920 px wide. Any ratio works in the big frames; the three small cards crop to 5:4, so keep what matters near the center (bottom for `auto-away`).
+- **8 to 20 seconds, looping cleanly**: videos play muted and on a loop, only while on screen.
+- **Hide what's private**: other people's names and avatars, your space name.
+- After changing a video's ratio, update the `width` and `height` of its `<video>` in `index.html` so the page doesn't jump while it loads.
+
+To add a slot, add its name to `RECORDINGS` in the script and a `<video>` (or a clip tab) in `index.html`.
 
 ## Run locally
 
