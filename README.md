@@ -30,13 +30,16 @@ scripts/sync-media.sh regenerates media/ and the icons from a gather-mod-menu ch
 
 ## Videos
 
-The videos are the README GIFs for now, converted to MP4. To replace them, record screen videos (`.mov`, `.mp4` or `.webm`, no need to go through a GIF) named after their slot, put them in one folder and run (needs `ffmpeg`):
+The videos are made with [Remotion](https://www.remotion.dev) in the `gather-mod-video` repo (`src/site`): Gather rebuilt with its real sprites and the mod's own CSS, a fake office with fake colleagues, filmed like screen recordings with captions. To render them again and refresh `media/` (needs `ffmpeg`):
 
 ```bash
-scripts/sync-media.sh ../gather-mod-menu ~/recordings
+# in gather-mod-video: every slot, or name some (render-site.sh place-on bulk-delete)
+bash scripts/render-site.sh
+# here
+scripts/sync-media.sh ../gather-mod-menu ../gather-mod-video/out/site
 ```
 
-Slots you don't record keep their current video. Without the second argument, the script reads the mod's `docs/media` GIFs again.
+Real screen recordings work too (`.mov`, `.mp4` or `.webm`): name them after their slot, put them in one folder and pass it instead. Slots without a video in the folder keep their current one. Without the second argument, the script reads the mod's `docs/media` GIFs again.
 
 | Slot (file name)                  | Where it shows                                      |
 | --------------------------------- | --------------------------------------------------- |
@@ -53,13 +56,13 @@ Slots you don't record keep their current video. Without the second argument, th
 | `constructions`                   | Desks & Constructions, tab “Constructions”          |
 | `community-hub`                   | Community hub                                       |
 | `seasonal-themes`                 | Seasonal themes                                     |
-| `auto-away`                       | Small card “Auto away” (cropped to 5:4, bottom)     |
-| `mod-users`                       | Small card “Spot the other modders” (cropped, 5:4)  |
-| `ui-redesign`                     | Small card “Feels like Gather” (cropped, 5:4)       |
+| `auto-away`                       | Small card “Auto away” (5:4)                        |
+| `mod-users`                       | Small card “Spot the other modders” (5:4)           |
+| `ui-redesign`                     | Small card “Feels like Gather” (5:4)                |
 
 Recording tips:
 
-- **Landscape, around 16:10**, at Retina resolution: the script scales down to 1920 px wide. Any ratio works in the big frames; the three small cards crop to 5:4, so keep what matters near the center (bottom for `auto-away`).
+- **Landscape, around 16:10**, at Retina resolution: the script scales down to 1920 px wide. Any ratio works in the big frames; the three small cards crop to 5:4, so keep what matters near the center.
 - **8 to 20 seconds, looping cleanly**: videos play muted and on a loop, only while on screen.
 - **Hide what's private**: other people's names and avatars, your space name.
 - After changing a video's ratio, update the `width` and `height` of its `<video>` in `index.html` so the page doesn't jump while it loads.
